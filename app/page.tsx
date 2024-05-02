@@ -72,7 +72,7 @@ export default async function Home() {
       </div>
 
       {/* RESTAURANTES RECOMENDADOS */}
-      <div className="space-y-1 pt-6">
+      <div className="space-y-1 py-6">
         {/* TÍTULO E BOTÃO DE VER TODOS */}
         <div className="flex items-center justify-between px-5">
           <h2 className="text-lg font-semibold">Restaurantes recomendados</h2>

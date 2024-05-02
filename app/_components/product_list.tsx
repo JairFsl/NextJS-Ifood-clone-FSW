@@ -8,12 +8,18 @@ const ProductList = async () => {
         gt: 0,
       },
     },
-
     take: 10,
+    include: {
+      restaurant: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
 
   return (
-    <div className="[&:: -webkit-scrollbar]:hidden flex gap-4 overflow-x-scroll px-5">
+    <div className="flex gap-4 overflow-x-scroll px-5 pb-14 [&::-webkit-scrollbar]:hidden">
       {products.map((product) => (
         <ProductItem key={product.id} product={product} />
       ))}

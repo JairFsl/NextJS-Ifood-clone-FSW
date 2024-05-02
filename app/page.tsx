@@ -46,38 +46,21 @@ export default async function Home() {
     }),
   ]);
 
-  // const products = await db.product.findMany({
-  //   where: {
-  //     discountPercentage: {
-  //       gt: 0,
-  //     },
-  //   },
-  //   take: 10,
-  //   include: {
-  //     restaurant: {
-  //       select: {
-  //         name: true,
-  //       },
-  //     },
-  //   },
-  // });
-
-  // const restaurants = await db.restaurant.findMany({
-  //   take: 10,
-  //   select: {
-  //     id: true,
-  //     name: true,
-  //     imageUrl: true,
-  //     deliveryFee: true,
-  //     deliveryTimeMinutes: true,
-  //   },
-
-  //   where: {
-  //     deliveryFee: {
-  //       equals: 0,
-  //     },
-  //   },
-  // });
+  const renderItem = (item: ProductsListProps) => {
+    return (
+      <ProductItem
+        key={item.id}
+        id={item.id}
+        name={item.name}
+        description={item.description}
+        imageUrl={item.imageUrl}
+        price={item.price}
+        discountPercentage={item.discountPercentage}
+        restaurantId={item.restaurantId}
+        restaurant={item.restaurant}
+      />
+    );
+  };
 
   return (
     <>
@@ -116,7 +99,7 @@ export default async function Home() {
         {/* LISTA DE PRODUTOS EM OFERTA */}
         <HorizontalList<ProductsListProps>
           items={products}
-          RenderItem={ProductItem}
+          RenderItem={renderItem}
         />
       </div>
 

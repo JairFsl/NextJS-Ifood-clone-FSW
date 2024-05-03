@@ -69,7 +69,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
         <ProductImage product={product} />
 
         {/* INFO */}
-        <>
+        <div className="relative z-20 mt-[-20px] rounded-t-3xl bg-white">
           {/* RESTAURANT */}
           <div className="flex items-center gap-2 p-5">
             <div className="relative h-6 w-6">
@@ -153,7 +153,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
               <HorizontalList data={drinks} renderItem={renderProduct} />
             </div>
           )}
-        </>
+        </div>
       </div>
 
       <BottomButton text="Adicionar à Sacola" />

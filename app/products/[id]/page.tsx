@@ -7,12 +7,19 @@ import { AlarmClockIcon, ArrowDownIcon, BikeIcon } from "lucide-react";
 import ProductCount from "./_components/product_count";
 import BottomButton from "@/app/_components/bottom_button";
 import { Card } from "@/app/_components/ui/card";
+import HorizontalList from "@/app/_components/horizontal_list";
+import ProductItem from "@/app/_components/product_item";
+import { ProductsListProps } from "@/app/_types/ProductsListProps.interface";
 
 interface ProductPageProps {
   params: {
     id: string;
   };
 }
+
+const renderProduct = (product: ProductsListProps) => {
+  return <ProductItem product={product} />;
+};
 
 const ProductPage = async ({ params: { id } }: ProductPageProps) => {
   const product = await db.product.findUnique({
@@ -22,6 +29,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
     include: {
       restaurant: {
         select: {
+          id: true,
           name: true,
           imageUrl: true,
           deliveryFee: true,
@@ -33,16 +41,37 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
 
   if (!product) return notFound();
 
+  const drinks = await db.product.findMany({
+    take: 5,
+    where: {
+      category: {
+        name: "Sucos",
+      },
+      AND: {
+        restaurant: {
+          id: product.restaurant.id,
+        },
+      },
+    },
+    include: {
+      restaurant: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
   return (
     <>
       <div className="pb-20">
-        {/* IMAGEM */}
+        {/* IMAGE */}
         <ProductImage product={product} />
 
         {/* INFO */}
-        <div className="p-5">
+        <>
           {/* RESTAURANT */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 p-5">
             <div className="relative h-6 w-6">
               <Image
                 src={product.restaurant.imageUrl}
@@ -55,11 +84,12 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
             <span className="text-sm">{product.restaurant.name}</span>
           </div>
 
-          {/* PRODUTO */}
-          <div className="py-3 text-2xl font-bold">{product.name}</div>
+          {/* PRODCUT NAME */}
+          <div className="px-5 pb-3 text-2xl font-bold">{product.name}</div>
 
-          {/* PREÇO + QUANTIDADE*/}
-          <div className="flex flex-row items-center justify-between">
+          {/* PRICE + QUANTITY*/}
+          <div className="flex flex-row items-center justify-between px-5">
+            {/* PRODUCT PRICE */}
             <div className="flex flex-col">
               <div className="flex flex-row items-center gap-4 text-2xl font-bold">
                 {formatPrice(Number(product.price), product.discountPercentage)}
@@ -77,12 +107,13 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
               )}
             </div>
 
+            {/* PRODUCT QUANTITY */}
             <ProductCount />
           </div>
 
-          {/* ENTREGA */}
-          <Card className="mt-7 flex flex-row items-center justify-around rounded-md border border-solid border-gray-200 py-7 shadow-md">
-            {/* CUSTO */}
+          {/* DELIVERY */}
+          <Card className="mx-5 my-7 flex flex-row items-center justify-around rounded-md border border-solid border-gray-200 px-5 py-7 shadow-md">
+            {/* DELIVERY FEE */}
             <div className="flex-col">
               <div className="flex items-center gap-2">
                 Entrega
@@ -97,7 +128,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
               </div>
             </div>
 
-            {/* TEMPO */}
+            {/* DELIVERY TIME */}
             <div className="flex-col">
               <div className="flex items-center gap-2">
                 Entrega
@@ -109,12 +140,20 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
             </div>
           </Card>
 
-          {/* DESCRIÇÃO */}
-          <div>
-            <h2 className="pb-3 pt-7 text-lg font-semibold">Sobre</h2>
+          {/* DESCRIPTION */}
+          <div className="px-5 py-2">
+            <h2 className="pb-2 text-lg font-semibold">Sobre</h2>
             <p className="text-muted-foreground">{product.description}</p>
           </div>
-        </div>
+
+          {/* MORE */}
+          {drinks.length > 0 && (
+            <div className="py-6">
+              <h2 className="px-5 pb-3 text-lg font-semibold">Sucos</h2>
+              <HorizontalList data={drinks} renderItem={renderProduct} />
+            </div>
+          )}
+        </>
       </div>
 
       <BottomButton text="Adicionar à Sacola" />

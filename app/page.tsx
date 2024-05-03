@@ -21,11 +21,7 @@ export default async function Home() {
       },
       take: 10,
       include: {
-        restaurant: {
-          select: {
-            name: true,
-          },
-        },
+        restaurant: true,
       },
     }),
     db.restaurant.findMany({

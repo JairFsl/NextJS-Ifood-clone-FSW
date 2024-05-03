@@ -15,7 +15,7 @@ interface ItemProps {
 const ProductItem: React.FC<ItemProps> = ({ product }: ItemProps) => {
   const router = useRouter();
   return (
-    <Link className="w-[150px] min-w-[150px]" href={`/products/${product.id}`}>
+    <Link className="w-[150px] min-w-[150px]" href={`/products/${product.id}`} key={product.id}>
       <div className="w-[150px] min-w-[150px] space-y-2 rounded-b-lg rounded-t-2xl bg-background px-1 py-1">
         {/* IMAGEM */}
         <div className="relative h-[150px] w-full">

@@ -24,7 +24,7 @@ const RestaurantItem: React.FC<ItemProps> = ({ restaurant }: ItemProps) => {
           {/* AVALIAÇÃO */}
           <div className="absolute left-2 top-2 flex items-center gap-0.5 rounded-xl bg-white px-2 text-black">
             <StarIcon size={20} fill="#ffd900" strokeWidth={0} />
-            {`5.0`}
+            5.0
           </div>
 
           <Button

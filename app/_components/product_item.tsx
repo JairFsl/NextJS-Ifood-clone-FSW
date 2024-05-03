@@ -9,13 +9,21 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface ItemProps {
+  showRestaurant: boolean;
   product: ProductsListProps;
 }
 
-const ProductItem: React.FC<ItemProps> = ({ product }: ItemProps) => {
+const ProductItem: React.FC<ItemProps> = ({
+  showRestaurant = true,
+  product,
+}: ItemProps) => {
   const router = useRouter();
   return (
-    <Link className="w-[150px] min-w-[150px]" href={`/products/${product.id}`} key={product.id}>
+    <Link
+      className="w-[150px] min-w-[150px]"
+      href={`/products/${product.id}`}
+      key={product.id}
+    >
       <div className="w-[150px] min-w-[150px] space-y-2 rounded-b-lg rounded-t-2xl bg-background px-1 py-1">
         {/* IMAGEM */}
         <div className="relative h-[150px] w-full">
@@ -45,9 +53,11 @@ const ProductItem: React.FC<ItemProps> = ({ product }: ItemProps) => {
             </span>
           </div>
 
-          <span className="block text-xs text-muted-foreground">
-            {product.restaurant.name}
-          </span>
+          {showRestaurant && (
+            <span className="block text-xs text-muted-foreground">
+              {product.restaurant.name}
+            </span>
+          )}
         </div>
       </div>
     </Link>

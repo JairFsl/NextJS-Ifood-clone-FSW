@@ -40,26 +40,18 @@ export default async function Home() {
 
       where: {
         deliveryFee: {
-          equals: 0,
+          lte: 5,
         },
       },
     }),
   ]);
 
-  const renderItem = (item: ProductsListProps) => {
-    return (
-      <ProductItem
-        key={item.id}
-        id={item.id}
-        name={item.name}
-        description={item.description}
-        imageUrl={item.imageUrl}
-        price={item.price}
-        discountPercentage={item.discountPercentage}
-        restaurantId={item.restaurantId}
-        restaurant={item.restaurant}
-      />
-    );
+  const renderProduct = (product: ProductsListProps) => {
+    return <ProductItem product={product} />;
+  };
+
+  const renderRestaurant = (restaurant: RestaurantItemProps) => {
+    return <RestaurantItem restaurant={restaurant} />;
   };
 
   return (
@@ -98,8 +90,8 @@ export default async function Home() {
 
         {/* LISTA DE PRODUTOS EM OFERTA */}
         <HorizontalList<ProductsListProps>
-          items={products}
-          RenderItem={renderItem}
+          data={products}
+          renderItem={renderProduct}
         />
       </div>
 
@@ -124,8 +116,8 @@ export default async function Home() {
 
         {/* LISTA DE RESTAURANTES RECOMENDADOS */}
         <HorizontalList<RestaurantItemProps>
-          items={restaurants}
-          RenderItem={RestaurantItem}
+          data={restaurants}
+          renderItem={renderRestaurant}
         />
       </div>
     </>

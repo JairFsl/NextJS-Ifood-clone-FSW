@@ -10,6 +10,7 @@ import HorizontalList from "./_components/horizontal_list";
 import { ProductsListProps } from "./_types/ProductsListProps.interface";
 import { RestaurantItemProps } from "./_types/RestaurantItemProps.interface";
 import RestaurantItem from "./_components/restaurant_item";
+import Link from "next/link";
 
 export default async function Home() {
   const [products, restaurants] = await Promise.all([
@@ -110,10 +111,12 @@ export default async function Home() {
         {/* TÍTULO E BOTÃO DE VER TODOS */}
         <div className="flex items-center justify-between px-5">
           <h2 className="text-lg font-semibold">Restaurantes recomendados</h2>
-          <Button variant="link" className="px-0 text-primary">
-            Ver todos
-            <ChevronRightIcon size={16} />
-          </Button>
+          <Link href={"/restaurants/recommended"}>
+            <Button variant="link" className="px-0 text-primary">
+              Ver todos
+              <ChevronRightIcon size={16} />
+            </Button>
+          </Link>
         </div>
 
         {/* LISTA DE RESTAURANTES RECOMENDADOS */}

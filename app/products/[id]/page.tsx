@@ -14,7 +14,13 @@ interface ProductPageProps {
 }
 
 const renderProduct = (product: ProductsListProps) => {
-  return <ProductItem product={product} />;
+  return (
+    <ProductItem
+      product={JSON.parse(JSON.stringify(product))}
+      showRestaurant={false}
+      key={product.id}
+    />
+  );
 };
 
 const ProductPage = async ({ params: { id } }: ProductPageProps) => {
@@ -24,49 +30,72 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
     },
     include: {
       restaurant: true,
+      category: true,
     },
   });
 
   if (!product) return notFound();
 
-  const handleAddCart = (id: string): void => {
-    console.log("Add to cart");
-  };
-
-  const drinks = await db.product.findMany({
-    take: 10,
-    where: {
-      category: {
-        name: "Sucos",
-      },
-      AND: {
-        restaurant: {
-          id: product.restaurant.id,
+  let otherProducts;
+  // CHECK IF THE PRODUCT IS A DRINK
+  if (product.category.name === "Sucos") {
+    // TAKE OTHER PRODUCTS
+    otherProducts = await db.product.findMany({
+      take: 10,
+      where: {
+        restaurantId: product.restaurant.id,
+        NOT: {
+          id,
+          AND: {
+            category: {
+              name: "Sucos",
+            },
+          },
         },
       },
-      NOT: {
-        id,
+    });
+  } else {
+    // TAKE ALL DRINKS BUT THE CURRENT PRODUCT
+    otherProducts = await db.product.findMany({
+      take: 10,
+      where: {
+        category: {
+          name: "Sucos",
+        },
+        AND: {
+          restaurantId: product.restaurant.id,
+        },
+        NOT: {
+          id,
+        },
       },
-    },
-    include: {
-      restaurant: true,
-    },
-  });
+      include: {
+        restaurant: true,
+      },
+    });
+  }
 
   return (
     <>
       <div className="pb-20">
         {/* IMAGE */}
-        <ProductImage product={product} />
+        <ProductImage product={JSON.parse(JSON.stringify(product))} />
 
         {/* INFO */}
-        <ProductDetails product={product} />
+        <ProductDetails product={JSON.parse(JSON.stringify(product))} />
 
         {/* MORE */}
-        {drinks.length > 0 && (
+        {otherProducts.length > 0 && (
           <div className="py-6">
-            <h2 className="px-5 pb-3 text-lg font-semibold">Sucos</h2>
-            <HorizontalList data={drinks} renderItem={renderProduct} />
+            <h2 className="px-5 pb-3 text-lg font-semibold">
+              {product.category.name === "Sucos"
+                ? `Mais de ${product.restaurant.name}`
+                : "Sucos"}
+            </h2>
+            <HorizontalList
+              data={JSON.parse(JSON.stringify(otherProducts))}
+              renderItem={renderProduct}
+            />
           </div>
         )}
       </div>

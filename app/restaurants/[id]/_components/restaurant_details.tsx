@@ -13,11 +13,23 @@ interface RestaurantDetailsProps {
 }
 
 const renderProductsSearched = (product: ProductsListProps) => {
-  return <ProductItem product={product} showRestaurant={false} />;
+  return (
+    <ProductItem
+      product={JSON.parse(JSON.stringify(product))}
+      showRestaurant={false}
+      key={product.id}
+    />
+  );
 };
 
 const renderProductsByCategory = (product: ProductsListProps) => {
-  return <ProductItem product={product} showRestaurant={false} />;
+  return (
+    <ProductItem
+      product={JSON.parse(JSON.stringify(product))}
+      showRestaurant={false}
+      key={product.id}
+    />
+  );
 };
 
 const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
@@ -26,11 +38,7 @@ const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
     where: {
       category: {
         name: {
-          in: [
-            restaurant.categories[0].name,
-            restaurant.categories[1].name,
-            restaurant.categories[2].name,
-          ],
+          in: [...restaurant.categories.map((category) => category.name)],
         },
       },
       AND: {
@@ -129,7 +137,7 @@ const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
         <div className="py-6">
           <h2 className="mx-5 pb-3 text-lg font-semibold">Mais Pedidos</h2>
           <HorizontalList
-            data={mostSearched}
+            data={JSON.parse(JSON.stringify(mostSearched))}
             renderItem={renderProductsSearched}
           />
         </div>
@@ -142,7 +150,7 @@ const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
             {restaurant.categories[0].name}
           </h2>
           <HorizontalList
-            data={productsByCategory}
+            data={JSON.parse(JSON.stringify(productsByCategory))}
             renderItem={renderProductsByCategory}
           />
         </div>

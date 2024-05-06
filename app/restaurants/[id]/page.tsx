@@ -24,9 +24,9 @@ const RestaurantsPage = async ({ params: { id } }: RestaurantsPageProps) => {
   return (
     <div>
       {/* IMAGE */}
-      <RestaurantImage restaurant={restaurant} />
+      <RestaurantImage restaurant={JSON.parse(JSON.stringify(restaurant))} />
 
-      <RestaurantDetails restaurant={restaurant} />
+      <RestaurantDetails restaurant={JSON.parse(JSON.stringify(restaurant))} />
     </div>
   );
 };

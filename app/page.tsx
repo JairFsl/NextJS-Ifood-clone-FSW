@@ -26,28 +26,34 @@ export default async function Home() {
     }),
     db.restaurant.findMany({
       take: 10,
-      select: {
-        id: true,
-        name: true,
-        imageUrl: true,
-        deliveryFee: true,
-        deliveryTimeMinutes: true,
-      },
-
       where: {
         deliveryFee: {
           lte: 5,
         },
       },
+
+      include: {
+        categories: true,
+      },
     }),
   ]);
 
   const renderProduct = (product: ProductsListProps) => {
-    return <ProductItem product={product} />;
+    return (
+      <ProductItem
+        product={JSON.parse(JSON.stringify(product))}
+        key={product.id}
+      />
+    );
   };
 
   const renderRestaurant = (restaurant: RestaurantItemProps) => {
-    return <RestaurantItem restaurant={restaurant} />;
+    return (
+      <RestaurantItem
+        restaurant={JSON.parse(JSON.stringify(restaurant))}
+        key={restaurant.id}
+      />
+    );
   };
 
   return (
@@ -86,7 +92,7 @@ export default async function Home() {
 
         {/* LISTA DE PRODUTOS EM OFERTA */}
         <HorizontalList<ProductsListProps>
-          data={products}
+          data={JSON.parse(JSON.stringify(products))}
           renderItem={renderProduct}
         />
       </div>
@@ -112,7 +118,7 @@ export default async function Home() {
 
         {/* LISTA DE RESTAURANTES RECOMENDADOS */}
         <HorizontalList<RestaurantItemProps>
-          data={restaurants}
+          data={JSON.parse(JSON.stringify(restaurants))}
           renderItem={renderRestaurant}
         />
       </div>

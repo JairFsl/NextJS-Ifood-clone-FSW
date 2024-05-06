@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface ItemProps {
-  showRestaurant: boolean;
+  showRestaurant?: boolean;
   product: ProductsListProps;
 }
 
@@ -35,10 +35,12 @@ const ProductItem: React.FC<ItemProps> = ({
           />
 
           {/* DESCONTO */}
-          <div className="absolute left-2 top-2 flex items-center gap-0.5 rounded-xl bg-primary px-2 text-white">
-            <ArrowDownIcon size={14} />
-            {product.discountPercentage}%
-          </div>
+          {product.discountPercentage > 0 && (
+            <div className="absolute left-2 top-2 flex items-center gap-0.5 rounded-xl bg-primary px-2 text-white">
+              <ArrowDownIcon size={14} />
+              {product.discountPercentage}%
+            </div>
+          )}
         </div>
 
         {/* INFO */}

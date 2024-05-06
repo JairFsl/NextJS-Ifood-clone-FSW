@@ -1,11 +1,5 @@
-import { Category } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
+import { Category, Restaurant } from "@prisma/client";
 
-export interface RestaurantItemProps {
-  id: string;
-  name: string;
-  imageUrl: string;
-  deliveryFee: Decimal;
-  deliveryTimeMinutes: number;
-  categories: Category[];
+export interface RestaurantItemProps extends Restaurant {
+  categories: Array<Category>;
 }

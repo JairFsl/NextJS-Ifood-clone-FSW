@@ -1,13 +1,5 @@
-import { Restaurant } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
+import { Restaurant, Product } from "@prisma/client";
 
-export interface ProductsListProps {
-  id: string;
-  name: string;
-  description: string;
-  imageUrl: string;
-  price: Decimal;
-  discountPercentage: number;
-  restaurantId: string;
+export interface ProductsListProps extends Product {
   restaurant: Restaurant;
 }

@@ -3,8 +3,6 @@ import { notFound } from "next/navigation";
 import ProductImage from "./_components/product_image";
 import BottomButton from "@/app/_components/bottom_button";
 import HorizontalList from "@/app/_components/horizontal_list";
-import ProductItem from "@/app/_components/product_item";
-import { ProductsListProps } from "@/app/_types/ProductsListProps.interface";
 import ProductDetails from "./_components/product_details";
 
 interface ProductPageProps {
@@ -12,16 +10,6 @@ interface ProductPageProps {
     id: string;
   };
 }
-
-const renderProduct = (product: ProductsListProps) => {
-  return (
-    <ProductItem
-      product={JSON.parse(JSON.stringify(product))}
-      showRestaurant={false}
-      key={product.id}
-    />
-  );
-};
 
 const ProductPage = async ({ params: { id } }: ProductPageProps) => {
   const product = await db.product.findUnique({
@@ -47,11 +35,17 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
         NOT: {
           id,
           AND: {
-            category: {
-              name: "Sucos",
+            NOT: {
+              category: {
+                name: "Sucos",
+              },
             },
           },
         },
+      },
+
+      include: {
+        restaurant: true,
       },
     });
   } else {
@@ -61,12 +55,6 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
       where: {
         category: {
           name: "Sucos",
-        },
-        AND: {
-          restaurantId: product.restaurant.id,
-        },
-        NOT: {
-          id,
         },
       },
       include: {
@@ -92,10 +80,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
                 ? `Mais de ${product.restaurant.name}`
                 : "Sucos"}
             </h2>
-            <HorizontalList
-              data={JSON.parse(JSON.stringify(otherProducts))}
-              renderItem={renderProduct}
-            />
+            <HorizontalList product data={otherProducts} />
           </div>
         )}
       </div>

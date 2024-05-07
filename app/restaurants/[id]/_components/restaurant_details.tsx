@@ -1,9 +1,7 @@
 import HorizontalList from "@/app/_components/horizontal_list";
-import ProductItem from "@/app/_components/product_item";
 import { Badge } from "@/app/_components/ui/badge";
 import { Card } from "@/app/_components/ui/card";
 import { db } from "@/app/_lib/prisma";
-import { ProductsListProps } from "@/app/_types/ProductsListProps.interface";
 import { RestaurantItemProps } from "@/app/_types/RestaurantItemProps.interface";
 import { AlarmClockIcon, BikeIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
@@ -11,26 +9,6 @@ import Image from "next/image";
 interface RestaurantDetailsProps {
   restaurant: RestaurantItemProps;
 }
-
-const renderProductsSearched = (product: ProductsListProps) => {
-  return (
-    <ProductItem
-      product={JSON.parse(JSON.stringify(product))}
-      showRestaurant={false}
-      key={product.id}
-    />
-  );
-};
-
-const renderProductsByCategory = (product: ProductsListProps) => {
-  return (
-    <ProductItem
-      product={JSON.parse(JSON.stringify(product))}
-      showRestaurant={false}
-      key={product.id}
-    />
-  );
-};
 
 const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
   const mostSearched = await db.product.findMany({
@@ -137,21 +115,21 @@ const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
         <div className="py-6">
           <h2 className="mx-5 pb-3 text-lg font-semibold">Mais Pedidos</h2>
           <HorizontalList
+            product
             data={JSON.parse(JSON.stringify(mostSearched))}
-            renderItem={renderProductsSearched}
           />
         </div>
       )}
 
       {/* LIST BY CATEGORY */}
-      {mostSearched.length > 0 && (
+      {productsByCategory.length > 0 && (
         <div className="py-6">
           <h2 className="mx-5 pb-3 text-lg font-semibold">
             {restaurant.categories[0].name}
           </h2>
           <HorizontalList
+            product
             data={JSON.parse(JSON.stringify(productsByCategory))}
-            renderItem={renderProductsByCategory}
           />
         </div>
       )}

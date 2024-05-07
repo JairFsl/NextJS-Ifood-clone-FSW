@@ -4,59 +4,12 @@ import Banner from "./_components/banner";
 import CategoryList from "./_components/category_list";
 import Header from "./_components/header";
 import Search from "./_components/search";
-import { db } from "./_lib/prisma";
-import ProductItem from "./_components/product_item";
 import HorizontalList from "./_components/horizontal_list";
-import { ProductsListProps } from "./_types/ProductsListProps.interface";
-import { RestaurantItemProps } from "./_types/RestaurantItemProps.interface";
-import RestaurantItem from "./_components/restaurant_item";
 import Link from "next/link";
 
+import { Suspense } from "react";
+
 export default async function Home() {
-  const [products, restaurants] = await Promise.all([
-    db.product.findMany({
-      where: {
-        discountPercentage: {
-          gt: 0,
-        },
-      },
-      take: 10,
-      include: {
-        restaurant: true,
-      },
-    }),
-    db.restaurant.findMany({
-      take: 10,
-      where: {
-        deliveryFee: {
-          lte: 5,
-        },
-      },
-
-      include: {
-        categories: true,
-      },
-    }),
-  ]);
-
-  const renderProduct = (product: ProductsListProps) => {
-    return (
-      <ProductItem
-        product={JSON.parse(JSON.stringify(product))}
-        key={product.id}
-      />
-    );
-  };
-
-  const renderRestaurant = (restaurant: RestaurantItemProps) => {
-    return (
-      <RestaurantItem
-        restaurant={JSON.parse(JSON.stringify(restaurant))}
-        key={restaurant.id}
-      />
-    );
-  };
-
   return (
     <>
       {/* CABEÇALHO */}
@@ -69,7 +22,17 @@ export default async function Home() {
 
       {/* lISTA DE CATEGORIAS */}
       <div className="px-5 pt-6">
-        <CategoryList />
+        <Suspense
+          fallback={
+            <div className="flex flex-row justify-center gap-2">
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary"></div>
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.3s]"></div>
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.5s]"></div>
+            </div>
+          }
+        >
+          <CategoryList />
+        </Suspense>
       </div>
 
       {/* BANNER PROMOCIONAL */}
@@ -85,17 +48,26 @@ export default async function Home() {
         {/* TÍTULO E BOTÃO DE VER TODOS */}
         <div className="flex items-center justify-between px-5">
           <h2 className="text-lg font-semibold">Ofertas recomendadas</h2>
+          {/* <Link href={"/restaurants/recommended"}> */}
           <Button variant="link" className="px-0 text-primary">
             Ver todos
             <ChevronRightIcon size={16} />
           </Button>
+          {/* </Link> */}
         </div>
 
         {/* LISTA DE PRODUTOS EM OFERTA */}
-        <HorizontalList<ProductsListProps>
-          data={JSON.parse(JSON.stringify(products))}
-          renderItem={renderProduct}
-        />
+        <Suspense
+          fallback={
+            <div className="flex flex-row justify-center gap-2">
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary"></div>
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.3s]"></div>
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.5s]"></div>
+            </div>
+          }
+        >
+          <HorizontalList product={true} />
+        </Suspense>
       </div>
 
       {/* BANNER PROMOCIONAL */}
@@ -120,10 +92,7 @@ export default async function Home() {
         </div>
 
         {/* LISTA DE RESTAURANTES RECOMENDADOS */}
-        <HorizontalList<RestaurantItemProps>
-          data={JSON.parse(JSON.stringify(restaurants))}
-          renderItem={renderRestaurant}
-        />
+        <HorizontalList restaurant={true} />
       </div>
     </>
   );

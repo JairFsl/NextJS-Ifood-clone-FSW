@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-no-undef */
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { formatPrice } from "@/app/_lib/utils";
-import { ProductsListProps } from "@/app/_types/ProductsListProps.interface";
+import { ProductsItemProps } from "@/app/_types/ProductsItemProps.interface";
 import {
   AlarmClockIcon,
   ArrowDownIcon,
@@ -16,7 +15,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface ProductDetailsProps {
-  product: ProductsListProps;
+  product: ProductsItemProps;
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {

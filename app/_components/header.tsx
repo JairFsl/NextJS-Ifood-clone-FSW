@@ -7,7 +7,13 @@ const Header = () => {
   return (
     <div className="flex justify-between px-5 pt-6">
       <Link href={"/"}>
-        <Image src="/logo.png" alt="FSW IFood" height={30} width={140} />
+        <Image
+          src="/logo.png"
+          alt="FSW IFood"
+          height={30}
+          width={140}
+          quality={100}
+        />
       </Link>
 
       <Button

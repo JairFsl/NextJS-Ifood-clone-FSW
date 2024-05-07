@@ -1,6 +1,9 @@
+"use client";
+
 import { Category } from "@prisma/client";
 import Image from "next/image";
-import { Badge } from "./ui/badge";
+import Link from "next/link";
+import { Button } from "./ui/button";
 
 interface CategoryItemProps {
   category: Category;
@@ -8,18 +11,21 @@ interface CategoryItemProps {
 
 const CategoryItem = ({ category }: CategoryItemProps) => {
   return (
-    <Badge
-      variant="outline"
-      className="flex items-center gap-5 border-none bg-background px-5 py-2"
-    >
-      <Image
-        src={category.imageUrl}
-        alt={category.name}
-        height={30}
-        width={30}
-      />
-      <span className="text-center text-sm font-semibold">{category.name}</span>
-    </Badge>
+    <Link href={`/categories/${category.id}/products`}>
+      <Button
+        variant={"outline"}
+        className="h-10 w-full min-w-full justify-start gap-4 border px-7 shadow-md"
+      >
+        <Image
+          src={category.imageUrl}
+          alt={category.name}
+          width={25}
+          height={25}
+          quality={100}
+        />
+        <span className="text-left text-sm font-semibold">{category.name}</span>
+      </Button>
+    </Link>
   );
 };
 

@@ -1,36 +1,39 @@
 "use client";
 
 import Image from "next/image";
-import { formatPrice } from "../_lib/utils";
+import { cn, formatPrice } from "../_lib/utils";
 import { ArrowDownIcon } from "lucide-react";
 import React from "react";
-import { ProductsListProps } from "../_types/ProductsListProps.interface";
-import { useRouter } from "next/navigation";
+import { ProductsItemProps } from "../_types/ProductsItemProps.interface";
 import Link from "next/link";
 
 interface ItemProps {
   showRestaurant?: boolean;
-  product: ProductsListProps;
+  product: ProductsItemProps;
+
+  className?: string;
 }
 
 const ProductItem: React.FC<ItemProps> = ({
   showRestaurant = true,
   product,
+  className,
 }: ItemProps) => {
-  const router = useRouter();
   return (
     <Link
-      className="w-[150px] min-w-[150px]"
+      className={(cn("w-[180px] min-w-[180px]"), className)}
       href={`/products/${product.id}`}
       key={product.id}
     >
-      <div className="w-[150px] min-w-[150px] space-y-2 rounded-b-lg rounded-t-2xl bg-background px-1 py-1">
+      <div className="w-full space-y-2 rounded-lg p-1 hover:bg-slate-200">
         {/* IMAGEM */}
-        <div className="relative h-[150px] w-full">
+        <div className="relative aspect-square h-[150px] w-full">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
+            quality={100}
+            sizes="100%"
             className="rounded-lg object-cover shadow-sm"
           />
 
@@ -50,9 +53,12 @@ const ProductItem: React.FC<ItemProps> = ({
             <span className="font-semibold">
               {formatPrice(Number(product.price), product.discountPercentage)}
             </span>
-            <span className="text-xs text-muted-foreground line-through">
-              {formatPrice(Number(product.price))}
-            </span>
+
+            {product.discountPercentage > 0 && (
+              <span className="text-xs text-muted-foreground line-through">
+                {formatPrice(Number(product.price))}
+              </span>
+            )}
           </div>
 
           {showRestaurant && (

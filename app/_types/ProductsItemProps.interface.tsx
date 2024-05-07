@@ -1,5 +1,5 @@
 import { Restaurant, Product } from "@prisma/client";
 
-export interface ProductsListProps extends Product {
+export interface ProductsItemProps extends Product {
   restaurant: Restaurant;
 }

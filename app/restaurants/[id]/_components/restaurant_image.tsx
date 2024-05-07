@@ -18,6 +18,7 @@ const RestaurantImage = ({ restaurant }: RestaurantImageProps) => {
         src={restaurant.imageUrl}
         alt={restaurant.name}
         fill
+        quality={100}
         className="object-cover"
       />
 

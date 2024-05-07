@@ -3,21 +3,32 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { RestaurantItemProps } from "../_types/RestaurantItemProps.interface";
 import Link from "next/link";
+import { cn } from "../_lib/utils";
 
 interface ItemProps {
   restaurant: RestaurantItemProps;
+
+  className?: string;
 }
 
-const RestaurantItem: React.FC<ItemProps> = ({ restaurant }: ItemProps) => {
+const RestaurantItem: React.FC<ItemProps> = ({
+  restaurant,
+  className,
+}: ItemProps) => {
   return (
-    <Link href={`/restaurants/${restaurant.id}`} key={restaurant.id}>
-      <div className="w-full min-w-[266px] space-y-2 rounded-b-lg rounded-t-2xl bg-background px-1 py-1">
+    <Link
+      href={`/restaurants/${restaurant.id}`}
+      key={restaurant.id}
+      className={cn("min-w-[266px] max-w-[266px]", className)}
+    >
+      <div className="w-full space-y-3 rounded-lg p-1 hover:bg-slate-200">
         {/* IMAGEM */}
         <div className="relative h-[150px] w-full">
           <Image
             src={restaurant.imageUrl}
             alt={restaurant.name}
             fill
+            quality={100}
             className="rounded-lg object-cover shadow-sm"
           />
 
@@ -36,9 +47,13 @@ const RestaurantItem: React.FC<ItemProps> = ({ restaurant }: ItemProps) => {
         </div>
 
         {/* INFO */}
-        <div className="gap-2">
+        <div className="flex flex-col gap-2">
+          {/* RESTAURANT NAME */}
           <h2 className="truncate font-semibold">{restaurant.name}</h2>
-          <div className="items- flex items-center gap-6">
+
+          {/* RESTAURANT DELIVERY INFO */}
+          <div className="items- flex items-center gap-9">
+            {/* DELIVERY FEE */}
             <div className="flex gap-1">
               <BikeIcon size={16} className="text-primary" />
               <span className="text-sm text-muted-foreground">
@@ -47,6 +62,8 @@ const RestaurantItem: React.FC<ItemProps> = ({ restaurant }: ItemProps) => {
                   : `Entrega Grátis`}
               </span>
             </div>
+
+            {/* DELIVERY TIME */}
             <div className="flex gap-1">
               <AlarmClockIcon size={16} className="text-primary" />
               <span className="text-xs text-muted-foreground">

@@ -23,7 +23,7 @@ const ListPage = ({
         <h1 className="text-xl font-bold">{title}</h1>
         <div
           className={cn(
-            "mt-4 grid min-w-full grid-cols-2 gap-x-4 gap-y-6",
+            "mt-4 grid min-w-full grid-cols-2 gap-x-3 gap-y-4",
             className,
           )}
         >

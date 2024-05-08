@@ -52,9 +52,9 @@ const RestaurantItem: React.FC<ItemProps> = ({
           <h2 className="truncate font-semibold">{restaurant.name}</h2>
 
           {/* RESTAURANT DELIVERY INFO */}
-          <div className="items- flex items-center gap-9">
+          <div className="flex items-center gap-9">
             {/* DELIVERY FEE */}
-            <div className="flex gap-1">
+            <div className="flex min-w-28 gap-1">
               <BikeIcon size={16} className="text-primary" />
               <span className="text-sm text-muted-foreground">
                 {Number(restaurant.deliveryFee) > 0

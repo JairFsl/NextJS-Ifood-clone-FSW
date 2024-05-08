@@ -27,7 +27,10 @@ const ListPage = ({
             className,
           )}
         >
-          {data.map((item) => renderItem && renderItem(item))}
+          {data.map(
+            (item) =>
+              renderItem && renderItem(JSON.parse(JSON.stringify(item))),
+          )}
         </div>
       </div>
     </>

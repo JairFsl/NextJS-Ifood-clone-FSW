@@ -11,11 +11,12 @@ interface CategoryItemProps {
 
 const CategoryItem = ({ category }: CategoryItemProps) => {
   return (
-    <Link href={`/categories/${category.id}/products`}>
-      <Button
-        variant={"outline"}
-        className="h-10 w-full min-w-full justify-start gap-4 border px-7 shadow-md"
-      >
+    <Button
+      variant={"outline"}
+      className="h-10 w-full min-w-full justify-start gap-4 border px-7 shadow-md"
+      asChild
+    >
+      <Link href={`/categories/${category.id}/products`}>
         <Image
           src={category.imageUrl}
           alt={category.name}
@@ -24,8 +25,8 @@ const CategoryItem = ({ category }: CategoryItemProps) => {
           quality={100}
         />
         <span className="text-left text-sm font-semibold">{category.name}</span>
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   );
 };
 

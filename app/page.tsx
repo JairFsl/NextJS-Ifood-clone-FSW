@@ -48,12 +48,12 @@ export default async function Home() {
         {/* TÍTULO E BOTÃO DE VER TODOS */}
         <div className="flex items-center justify-between px-5">
           <h2 className="text-lg font-semibold">Ofertas recomendadas</h2>
-          {/* <Link href={"/restaurants/recommended"}> */}
-          <Button variant="link" className="px-0 text-primary">
-            Ver todos
-            <ChevronRightIcon size={16} />
+          <Button variant="link" className="px-0 text-primary" asChild>
+            <Link href={"/products/recommended"}>
+              Ver todos
+              <ChevronRightIcon size={16} />
+            </Link>
           </Button>
-          {/* </Link> */}
         </div>
 
         {/* LISTA DE PRODUTOS EM OFERTA */}
@@ -83,16 +83,26 @@ export default async function Home() {
         {/* TÍTULO E BOTÃO DE VER TODOS */}
         <div className="flex items-center justify-between px-5">
           <h2 className="text-lg font-semibold">Restaurantes recomendados</h2>
-          <Link href={"/restaurants/recommended"}>
-            <Button variant="link" className="px-0 text-primary">
+          <Button variant="link" className="flex px-0 text-primary" asChild>
+            <Link href={"/restaurants/recommended"}>
               Ver todos
               <ChevronRightIcon size={16} />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         {/* LISTA DE RESTAURANTES RECOMENDADOS */}
-        <HorizontalList restaurant={true} />
+        <Suspense
+          fallback={
+            <div className="flex flex-row justify-center gap-2">
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary"></div>
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.3s]"></div>
+              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.5s]"></div>
+            </div>
+          }
+        >
+          <HorizontalList restaurant={true} />
+        </Suspense>
       </div>
     </>
   );

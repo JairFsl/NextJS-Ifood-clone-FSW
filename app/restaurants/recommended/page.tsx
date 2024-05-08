@@ -13,7 +13,7 @@ const renderItem = (restaurant: RestaurantItemProps) => {
   );
 };
 
-const RecommendedProducts = async () => {
+const RecommendedRestaurants = async () => {
   const restaurants = await db.restaurant.findMany({
     where: {
       deliveryFee: {
@@ -36,4 +36,4 @@ const RecommendedProducts = async () => {
   );
 };
 
-export default RecommendedProducts;
+export default RecommendedRestaurants;

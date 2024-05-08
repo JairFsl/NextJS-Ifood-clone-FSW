@@ -6,7 +6,11 @@ import { Input } from "./ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const Search = () => {
+interface SearchProps {
+  placeholder?: string;
+}
+
+const Search = ({ placeholder = "Buscar Restaurantes" }: SearchProps) => {
   const router = useRouter();
   const [search, setSearch] = useState("");
 
@@ -14,23 +18,25 @@ const Search = () => {
     setSearch(e.target.value);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
     if (!search) return;
 
     return router.push(`/restaurants?search=${search}`);
   };
 
   return (
-    <div className="flex flex-row gap-2">
+    <form className="flex flex-row gap-2" onSubmit={handleSearchSubmit}>
       <Input
-        placeholder="Buscar Restaurantes"
+        placeholder={placeholder}
         className="border-none"
         onChange={handleChange}
+        value={search}
       />
-      <Button className="px-2.5" onClick={handleSearchSubmit}>
+      <Button className="px-2.5" type="submit">
         <SearchIcon size={20} />
       </Button>
-    </div>
+    </form>
   );
 };
 

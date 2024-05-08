@@ -1,6 +1,6 @@
 "use client";
 
-import { RestaurantItemProps } from "@/app/_types/RestaurantItemProps.interface";
+import { RestaurantItemProps } from "@/app/_types/Restaurant/RestaurantItemProps";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ListPage from "../_components/vertical_list";

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { cn, formatPrice } from "../_lib/utils";
 import { ArrowDownIcon } from "lucide-react";
 import React from "react";
-import { ProductsItemProps } from "../_types/ProductsItemProps.interface";
+import { ProductsItemProps } from "../_types/Product/ProductsItemProps";
 import Link from "next/link";
 
 interface ItemProps {

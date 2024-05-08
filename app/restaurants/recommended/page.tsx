@@ -1,7 +1,7 @@
 import RestaurantItem from "@/app/_components/restaurant_item";
 import { db } from "@/app/_lib/prisma";
 import ListPage from "@/app/_components/vertical_list";
-import { RestaurantItemProps } from "@/app/_types/RestaurantItemProps.interface";
+import { RestaurantItemProps } from "@/app/_types/Restaurant/RestaurantItemProps";
 
 const renderItem = (restaurant: RestaurantItemProps) => {
   return (

@@ -2,7 +2,7 @@ import HorizontalList from "@/app/_components/horizontal_list";
 import { Badge } from "@/app/_components/ui/badge";
 import { Card } from "@/app/_components/ui/card";
 import { db } from "@/app/_lib/prisma";
-import { RestaurantItemProps } from "@/app/_types/RestaurantItemProps.interface";
+import { RestaurantItemProps } from "@/app/_types/Restaurant/RestaurantItemProps";
 import { AlarmClockIcon, BikeIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 

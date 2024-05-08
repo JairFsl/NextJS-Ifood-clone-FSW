@@ -4,15 +4,15 @@ import { Button } from "./ui/button";
 
 interface BottomButtonProps {
   text: string;
-  handler?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const BottomButton = ({
   text = "Botão de baixo",
-  handler,
+  onClick = () => {},
 }: BottomButtonProps) => {
   return (
-    <Button size={"lg"} className="w-full bg-primary" onClick={handler}>
+    <Button size={"lg"} className="w-full bg-primary" onClick={onClick}>
       <span className="text-white">{text}</span>
     </Button>
   );

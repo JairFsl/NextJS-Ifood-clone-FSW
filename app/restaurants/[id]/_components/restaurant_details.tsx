@@ -53,6 +53,7 @@ const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
               src={restaurant.imageUrl}
               alt={restaurant.name}
               fill
+              sizes="100%"
               quality={100}
               className="rounded-full object-cover shadow-sm"
             />

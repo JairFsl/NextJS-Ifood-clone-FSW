@@ -28,6 +28,7 @@ const RestaurantItem: React.FC<ItemProps> = ({
             src={restaurant.imageUrl}
             alt={restaurant.name}
             fill
+            sizes="100%"
             quality={100}
             className="rounded-lg object-cover shadow-sm"
           />

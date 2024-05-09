@@ -18,6 +18,7 @@ const ProductImage = ({ product }: ProductImageProps) => {
         src={product.imageUrl}
         alt={product.name}
         fill
+        sizes="100%"
         quality={100}
         className="object-cover"
       />

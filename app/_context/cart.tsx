@@ -7,13 +7,17 @@ import {
 } from "../_types/Product/ProductsItemProps";
 
 interface ICartContext {
-  products: ProductsItemProps[];
+  products: CartProduct[];
   addProductToCart: (product: ProductsItemProps, quality: number) => void;
+  changeProductQuantity: (productId: string, quantity: number) => void;
+  deleteItemCart: (productId: string) => void;
 }
 
 export const CartContext = createContext<ICartContext>({
   products: [],
   addProductToCart: () => {},
+  changeProductQuantity: () => {},
+  deleteItemCart: () => {},
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -39,8 +43,33 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const changeProductQuantity = (productId: string, quantity: number) => {
+    setProducts((prev) =>
+      prev.map((p) => {
+        if (p.id === productId) {
+          return {
+            ...p,
+            quantity,
+          };
+        }
+        return p;
+      }),
+    );
+  };
+
+  const deleteItemCart = (productId: string) => {
+    setProducts((prev) => prev.filter((p) => p.id !== productId));
+  };
+
   return (
-    <CartContext.Provider value={{ products, addProductToCart }}>
+    <CartContext.Provider
+      value={{
+        products,
+        addProductToCart,
+        changeProductQuantity,
+        deleteItemCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

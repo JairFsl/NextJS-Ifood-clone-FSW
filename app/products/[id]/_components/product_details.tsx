@@ -2,22 +2,12 @@
 
 import BottomButton from "@/app/_components/bottom_button";
 import Cart from "@/app/_components/cart";
-import HorizontalList from "@/app/_components/horizontal_list";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTrigger,
-} from "@/app/_components/ui/sheet";
+import { Sheet, SheetContent } from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_context/cart";
 import { formatPrice } from "@/app/_lib/utils";
-import {
-  CartProduct,
-  ProductsItemProps,
-} from "@/app/_types/Product/ProductsItemProps";
-import { Category } from "@prisma/client";
+import { ProductsItemProps } from "@/app/_types/Product/ProductsItemProps";
 import {
   AlarmClockIcon,
   ArrowDownIcon,
@@ -36,8 +26,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const { products, addProductToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState<number>(1);
   const [openSheet, setOpenSheet] = useState<boolean>(false);
-
-  console.log(products);
 
   const handleIncrement = () =>
     setQuantity((prevState) => {
@@ -66,6 +54,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               src={product.restaurant.imageUrl}
               alt={product.restaurant.name}
               fill
+              sizes="100%"
               quality={100}
               className="rounded-full object-cover shadow-sm"
             />
@@ -152,7 +141,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 z-30 w-full rotate-180 transform rounded-b-3xl bg-white px-5 py-5 shadow-md">
+      <div className="fixed bottom-0 z-30 w-full rotate-180 transform rounded-b-3xl bg-white p-5 shadow-md">
         <div className="rotate-180">
           <BottomButton
             text="Adicionar ao carrinho"
@@ -163,7 +152,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
         <SheetContent className="pr-2.5">
-          <h1 className="text-2xl font-semibold">Sacola</h1>
           <Cart />
         </SheetContent>
       </Sheet>

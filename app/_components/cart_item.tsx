@@ -1,19 +1,39 @@
+"use client";
+
 import Image from "next/image";
 import { CartProduct } from "../_types/Product/ProductsItemProps";
 import { formatPrice } from "../_lib/utils";
 import { Button } from "./ui/button";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  Trash2Icon,
-  TrashIcon,
-} from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, Trash2Icon } from "lucide-react";
+import { useContext, useState } from "react";
+import { CartContext } from "../_context/cart";
 
 interface CartItemProps {
   cartProduct: CartProduct;
 }
 
 const CartItem = ({ cartProduct }: CartItemProps) => {
+  const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
+  const { changeProductQuantity, deleteItemCart } = useContext(CartContext);
+
+  const handleIncrement = () => {
+    setQuantity((prevState) => {
+      if (prevState === 99) return prevState;
+      return prevState + 1;
+    });
+
+    changeProductQuantity(cartProduct.id, quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    setQuantity((prevState) => {
+      if (prevState === 1) return prevState;
+      return prevState - 1;
+    });
+
+    changeProductQuantity(cartProduct.id, quantity - 1);
+  };
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex h-24 w-full items-center gap-4">
@@ -23,6 +43,7 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
             src={cartProduct.imageUrl}
             alt={cartProduct.name}
             fill
+            sizes="100%"
             quality={100}
             className="rounded-lg object-cover"
           />
@@ -52,14 +73,15 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
               variant={"outline"}
               size={"icon"}
               className="h-8 w-8 border-gray-200 text-foreground"
+              onClick={handleDecrement}
             >
               <ChevronLeftIcon />
             </Button>
             <div className="w-4 text-center text-sm text-muted-foreground">
-              {cartProduct.quantity}
+              {quantity}
             </div>
 
-            <Button size={"icon"} className="h-8 w-8">
+            <Button size={"icon"} className="h-8 w-8" onClick={handleIncrement}>
               <ChevronRightIcon />
             </Button>
           </div>
@@ -70,6 +92,7 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
         variant={"outline"}
         size={"icon"}
         className="border-gray-200 text-foreground"
+        onClick={() => deleteItemCart(cartProduct.id)}
       >
         <Trash2Icon size={18} />
       </Button>

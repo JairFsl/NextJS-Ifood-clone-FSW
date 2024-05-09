@@ -5,22 +5,24 @@ import BottomButton from "./bottom_button";
 import { formatPrice, getOrderInfo } from "../_lib/utils";
 
 const Cart = () => {
-  const { products } = useContext(CartContext);
+  const { products, RemoveAllProductsFromCart } = useContext(CartContext);
   const { subTotal, delivery, discount, total } = getOrderInfo(products);
 
   return (
     <>
       <h1 className="text-2xl font-semibold">Sacola</h1>
-      <div className="mt-4 space-y-7">
-        {products.map((product) => (
-          <CartItem
-            cartProduct={JSON.parse(JSON.stringify(product))}
-            key={product.id}
-          />
-        ))}
+      <div className="mt-4 flex h-full flex-col justify-between -space-y-7">
+        <div className="mb-5 h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden">
+          {products.map((product) => (
+            <CartItem
+              cartProduct={JSON.parse(JSON.stringify(product))}
+              key={product.id}
+            />
+          ))}
+        </div>
 
-        <div className="px fixed bottom-0 z-30 w-2/3">
-          <div className="rounded-md border px-5 py-3">
+        <div className="bottom-0 z-30 w-full bg-transparent pb-5">
+          <div className="rounded-md border bg-white px-5 py-3">
             <div className="flex flex-row justify-between border-b py-2">
               <span className="self-center text-center">Subtotal</span>
               <span>{formatPrice(subTotal)}</span>
@@ -57,7 +59,7 @@ const Cart = () => {
           <div className="my-7 flex w-full">
             <BottomButton
               text="Finalizar Pedido"
-              onClick={() => getOrderInfo(products)}
+              onClick={RemoveAllProductsFromCart}
             />
           </div>
         </div>

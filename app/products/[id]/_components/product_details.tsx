@@ -2,9 +2,10 @@
 
 import BottomButton from "@/app/_components/bottom_button";
 import Cart from "@/app/_components/cart";
+import Header from "@/app/_components/header";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
-import { Sheet, SheetContent } from "@/app/_components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader } from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_context/cart";
 import { formatPrice } from "@/app/_lib/utils";
 import { ProductsItemProps } from "@/app/_types/Product/ProductsItemProps";
@@ -151,7 +152,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       </div>
 
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-        <SheetContent className="pr-2.5">
+        <SheetContent>
           <Cart />
         </SheetContent>
       </Sheet>

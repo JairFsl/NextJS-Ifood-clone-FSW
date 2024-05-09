@@ -14,7 +14,8 @@ interface CartItemProps {
 
 const CartItem = ({ cartProduct }: CartItemProps) => {
   const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
-  const { changeProductQuantity, deleteItemCart } = useContext(CartContext);
+  const { changeProductQuantity, RemoveProductFromCart } =
+    useContext(CartContext);
 
   const handleIncrement = () => {
     setQuantity((prevState) => {
@@ -74,6 +75,7 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
               size={"icon"}
               className="h-8 w-8 border-gray-200 text-foreground"
               onClick={handleDecrement}
+              disabled={quantity === 1}
             >
               <ChevronLeftIcon />
             </Button>
@@ -81,7 +83,12 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
               {quantity}
             </div>
 
-            <Button size={"icon"} className="h-8 w-8" onClick={handleIncrement}>
+            <Button
+              size={"icon"}
+              className="h-8 w-8"
+              onClick={handleIncrement}
+              disabled={quantity === 99}
+            >
               <ChevronRightIcon />
             </Button>
           </div>
@@ -91,8 +98,8 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
       <Button
         variant={"outline"}
         size={"icon"}
-        className="border-gray-200 text-foreground"
-        onClick={() => deleteItemCart(cartProduct.id)}
+        className="h-8 w-8 border-gray-200 text-foreground"
+        onClick={() => RemoveProductFromCart(cartProduct.id)}
       >
         <Trash2Icon size={18} />
       </Button>

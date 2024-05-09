@@ -10,14 +10,16 @@ interface ICartContext {
   products: CartProduct[];
   addProductToCart: (product: ProductsItemProps, quality: number) => void;
   changeProductQuantity: (productId: string, quantity: number) => void;
-  deleteItemCart: (productId: string) => void;
+  RemoveProductFromCart: (productId: string) => void;
+  RemoveAllProductsFromCart: () => void;
 }
 
 export const CartContext = createContext<ICartContext>({
   products: [],
   addProductToCart: () => {},
   changeProductQuantity: () => {},
-  deleteItemCart: () => {},
+  RemoveProductFromCart: () => {},
+  RemoveAllProductsFromCart: () => {},
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -57,8 +59,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  const deleteItemCart = (productId: string) => {
+  const RemoveProductFromCart = (productId: string) => {
     setProducts((prev) => prev.filter((p) => p.id !== productId));
+  };
+
+  const RemoveAllProductsFromCart = () => {
+    setProducts([]);
   };
 
   return (
@@ -67,7 +73,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         products,
         addProductToCart,
         changeProductQuantity,
-        deleteItemCart,
+        RemoveProductFromCart,
+        RemoveAllProductsFromCart,
       }}
     >
       {children}

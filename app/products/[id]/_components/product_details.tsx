@@ -2,10 +2,10 @@
 
 import BottomButton from "@/app/_components/bottom_button";
 import Cart from "@/app/_components/cart";
-import Header from "@/app/_components/header";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
-import { Sheet, SheetContent, SheetHeader } from "@/app/_components/ui/sheet";
+import { Dialog, DialogContent } from "@/app/_components/ui/dialog";
+import { Sheet, SheetContent } from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_context/cart";
 import { formatPrice } from "@/app/_lib/utils";
 import { ProductsItemProps } from "@/app/_types/Product/ProductsItemProps.d";
@@ -13,6 +13,7 @@ import {
   AlarmClockIcon,
   ArrowDownIcon,
   BikeIcon,
+  CheckCircle2Icon,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react";
@@ -24,9 +25,10 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-  const { products, addProductToCart } = useContext(CartContext);
+  const { addProductToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState<number>(1);
   const [openSheet, setOpenSheet] = useState<boolean>(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const handleIncrement = () =>
     setQuantity((prevState) => {
@@ -153,9 +155,31 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
         <SheetContent>
-          <Cart />
+          <Cart dialog={setOpenDialog} cart={setOpenSheet} />
         </SheetContent>
       </Sheet>
+
+      <Dialog open={openDialog}>
+        <DialogContent className="flex h-80 w-3/4 flex-col items-center justify-center rounded-2xl">
+          <div className="flex flex-col items-center gap-3">
+            <CheckCircle2Icon
+              size={72}
+              className="rounded-full bg-primary text-white"
+            />
+
+            <h2 className="mt-3 text-center text-xl font-bold">
+              Pedido realizado com sucesso!
+            </h2>
+            <div className="w-full rounded-md">
+              <BottomButton
+                className="text-md w-full bg-gray-300 font-semibold text-black hover:text-white"
+                text="Confirmar"
+                onClick={() => setOpenDialog(false)}
+              />
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

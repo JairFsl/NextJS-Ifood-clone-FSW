@@ -1,10 +1,16 @@
-import { useContext } from "react";
+import { useContext, Dispatch, SetStateAction } from "react";
 import { CartContext } from "../_context/cart";
 import CartItem from "./cart_item";
 import BottomButton from "./bottom_button";
 import { formatPrice, getOrderInfo } from "../_lib/utils";
+import { Card } from "./ui/card";
 
-const Cart = () => {
+interface CartControlProps {
+  dialog: Dispatch<SetStateAction<boolean>>;
+  cart: Dispatch<SetStateAction<boolean>>;
+}
+
+const Cart = ({ dialog, cart }: CartControlProps) => {
   const { products, RemoveAllProductsFromCart } = useContext(CartContext);
   const { subTotal, delivery, discount, total } = getOrderInfo(products);
 
@@ -22,7 +28,7 @@ const Cart = () => {
         </div>
 
         <div className="bottom-0 z-30 w-full bg-transparent pb-5">
-          <div className="rounded-md border bg-white px-5 py-3">
+          <Card className="px-5">
             <div className="flex flex-row justify-between border-b py-2">
               <span className="self-center text-center">Subtotal</span>
               <span>{formatPrice(subTotal)}</span>
@@ -54,12 +60,17 @@ const Cart = () => {
               <span className="self-center text-center font-bold">Total</span>
               <span className="font-bold">{formatPrice(total)}</span>
             </div>
-          </div>
+          </Card>
 
           <div className="my-7 flex w-full">
             <BottomButton
+              disabled={products.length === 0}
               text="Finalizar Pedido"
-              onClick={RemoveAllProductsFromCart}
+              onClick={() => {
+                RemoveAllProductsFromCart();
+                cart(false);
+                dialog(true);
+              }}
             />
           </div>
         </div>

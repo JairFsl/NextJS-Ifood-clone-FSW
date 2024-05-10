@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { CartProduct } from "../_types/Product/ProductsItemProps";
+import { CartProduct } from "../_types/Product/ProductsItemProps.d";
 import { formatPrice } from "../_lib/utils";
 import { Button } from "./ui/button";
 import { ChevronLeftIcon, ChevronRightIcon, Trash2Icon } from "lucide-react";

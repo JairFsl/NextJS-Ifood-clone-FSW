@@ -1,7 +1,7 @@
 import { AlarmClockIcon, BikeIcon, HeartIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { RestaurantItemProps } from "../_types/Restaurant/RestaurantItemProps";
+import { RestaurantItemProps } from "../_types/Restaurant/RestaurantItemProps.d";
 import Link from "next/link";
 import { cn } from "../_lib/utils";
 

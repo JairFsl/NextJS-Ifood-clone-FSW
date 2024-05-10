@@ -8,7 +8,7 @@ import { Card } from "@/app/_components/ui/card";
 import { Sheet, SheetContent, SheetHeader } from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_context/cart";
 import { formatPrice } from "@/app/_lib/utils";
-import { ProductsItemProps } from "@/app/_types/Product/ProductsItemProps";
+import { ProductsItemProps } from "@/app/_types/Product/ProductsItemProps.d";
 import {
   AlarmClockIcon,
   ArrowDownIcon,

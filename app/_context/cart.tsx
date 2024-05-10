@@ -4,7 +4,7 @@ import { createContext, ReactNode, useState } from "react";
 import {
   CartProduct,
   ProductsItemProps,
-} from "../_types/Product/ProductsItemProps";
+} from "../_types/Product/ProductsItemProps.d";
 
 interface ICartContext {
   products: CartProduct[];

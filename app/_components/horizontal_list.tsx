@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import ProductItem from "./product_item";
 import RestaurantItem from "./restaurant_item";
-import { RestaurantItemProps } from "../_types/Restaurant/RestaurantItemProps";
-import { ProductsItemProps } from "../_types/Product/ProductsItemProps";
+import { RestaurantItemProps } from "../_types/Restaurant/RestaurantItemProps.d";
+import { ProductsItemProps } from "../_types/Product/ProductsItemProps.d";
 import { db } from "../_lib/prisma";
 
 interface ListProps {

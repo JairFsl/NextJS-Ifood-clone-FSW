@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import {
   CartProduct,
   ProductsItemProps,
-} from "../_types/Product/ProductsItemProps";
+} from "../_types/Product/ProductsItemProps.d";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

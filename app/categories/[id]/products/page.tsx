@@ -1,7 +1,7 @@
 import ProductItem from "@/app/_components/product_item";
 import ListPage from "@/app/_components/vertical_list";
 import { db } from "@/app/_lib/prisma";
-import { ProductsItemProps } from "@/app/_types/Product/ProductsItemProps";
+import { ProductsItemProps } from "@/app/_types/Product/ProductsItemProps.d";
 import { notFound } from "next/navigation";
 
 interface CategoriesPageProps {

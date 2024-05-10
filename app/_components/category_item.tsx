@@ -13,7 +13,7 @@ const CategoryItem = ({ category }: CategoryItemProps) => {
   return (
     <Button
       variant={"outline"}
-      className="h-10 w-full min-w-full justify-start gap-4 border px-7 shadow-md"
+      className="h-10 w-full min-w-full justify-start gap-4 border px-7 shadow-md hover:bg-primary hover:text-white"
       asChild
     >
       <Link href={`/categories/${category.id}/products`}>

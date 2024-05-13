@@ -30,19 +30,11 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
     otherProducts = await db.product.findMany({
       take: 10,
       where: {
-        restaurantId: product.restaurant.id,
+        restaurantId: product.restaurantId,
         NOT: {
           id,
-          AND: {
-            NOT: {
-              category: {
-                name: "Sucos",
-              },
-            },
-          },
         },
       },
-
       include: {
         restaurant: true,
       },
@@ -55,6 +47,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
         category: {
           name: "Sucos",
         },
+        restaurantId: product.restaurant.id,
       },
       include: {
         restaurant: true,

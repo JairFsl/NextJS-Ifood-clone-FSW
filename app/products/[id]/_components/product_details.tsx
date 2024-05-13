@@ -2,6 +2,16 @@
 
 import BottomButton from "@/app/_components/bottom_button";
 import Cart from "@/app/_components/cart";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/app/_components/ui/alert-dialog";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { Dialog, DialogContent } from "@/app/_components/ui/dialog";
@@ -18,6 +28,7 @@ import {
   ChevronRightIcon,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext, useState } from "react";
 
 interface ProductDetailsProps {
@@ -25,10 +36,11 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-  const { addProductToCart } = useContext(CartContext);
+  const { products, addProductToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState<number>(1);
-  const [openSheet, setOpenSheet] = useState<boolean>(false);
+  const [openCart, setOpenCart] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [openAlertDialog, setOpenAlertDialog] = useState<boolean>(false);
 
   const handleIncrement = () =>
     setQuantity((prevState) => {
@@ -41,29 +53,46 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       return prevState - 1;
     });
 
+  const addToCart = ({ emptyCart }: { emptyCart?: boolean }) => {
+    addProductToCart({ product, quantity, emptyCart });
+    setOpenCart(true);
+  };
+
   const handleAddProduct = () => {
-    console.log("Adding product to cart", product);
-    addProductToCart(product, quantity);
-    setOpenSheet(true);
+    const hasItemFromDifferentRestaurant = products.some(
+      (cartProduct) => cartProduct.restaurantId !== product.restaurantId,
+    );
+
+    if (hasItemFromDifferentRestaurant) return setOpenAlertDialog(true);
+
+    addToCart({
+      emptyCart: false,
+    });
   };
 
   return (
     <>
       <div className="relative z-20 mt-[-20px] rounded-t-3xl bg-white">
         {/* RESTAURANT */}
-        <div className="flex items-center gap-2 p-5">
-          <div className="relative h-6 w-6">
-            <Image
-              src={product.restaurant.imageUrl}
-              alt={product.restaurant.name}
-              fill
-              sizes="100%"
-              quality={100}
-              className="rounded-full object-cover shadow-sm"
-            />
-          </div>
-          <span className="text-sm">{product.restaurant.name}</span>
-        </div>
+        <Button
+          asChild
+          variant={"link"}
+          className="gap-2 p-5 text-sm font-normal text-black"
+        >
+          <Link href={`/restaurants/${product.restaurantId}`}>
+            <div className="relative h-6 w-6">
+              <Image
+                src={product.restaurant.imageUrl}
+                alt={product.restaurant.name}
+                fill
+                sizes="100%"
+                quality={100}
+                className="rounded-full object-cover shadow-sm"
+              />
+            </div>
+            <span>{product.restaurant.name}</span>
+          </Link>
+        </Button>
 
         {/* PRODCUT NAME */}
         <div className="px-5 pb-3 text-2xl font-bold">{product.name}</div>
@@ -153,11 +182,31 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         </div>
       </div>
 
-      <Sheet open={openSheet} onOpenChange={setOpenSheet}>
+      <Sheet open={openCart} onOpenChange={setOpenCart}>
         <SheetContent>
-          <Cart dialog={setOpenDialog} cart={setOpenSheet} />
+          <Cart dialog={setOpenDialog} cart={setOpenCart} />
         </SheetContent>
       </Sheet>
+
+      <AlertDialog open={openAlertDialog} onOpenChange={setOpenAlertDialog}>
+        <AlertDialogContent className="flex h-80 w-[90%] flex-col items-center justify-center rounded-2xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Esta ação removerá os itens atuais da sua sacola!
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Este item pertence a outro Restaurante. Deseja mesmo limpar sua
+              sacola e adicionar este item?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mt-5 w-full">
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={() => addToCart({ emptyCart: true })}>
+              Limpar e Adicionar Produto
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Dialog open={openDialog}>
         <DialogContent className="flex h-80 w-3/4 flex-col items-center justify-center rounded-2xl">

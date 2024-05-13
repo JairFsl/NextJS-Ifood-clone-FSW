@@ -5,13 +5,31 @@ import {
   CartProduct,
   ProductsItemProps,
 } from "../_types/Product/ProductsItemProps.d";
+import { getOrderInfo } from "../_lib/utils";
+
+interface IAddProductToCart {
+  product: ProductsItemProps;
+  quantity: number;
+  emptyCart?: boolean;
+}
 
 interface ICartContext {
   products: CartProduct[];
-  addProductToCart: (product: ProductsItemProps, quality: number) => void;
+  addProductToCart: ({
+    product,
+    quantity,
+    emptyCart,
+  }: IAddProductToCart) => void;
   changeProductQuantity: (productId: string, quantity: number) => void;
   RemoveProductFromCart: (productId: string) => void;
   RemoveAllProductsFromCart: () => void;
+  orderInfo: {
+    subTotal: number;
+    total: number;
+    delivery: number;
+    discount: number;
+    quantity: number;
+  };
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -20,12 +38,26 @@ export const CartContext = createContext<ICartContext>({
   changeProductQuantity: () => {},
   RemoveProductFromCart: () => {},
   RemoveAllProductsFromCart: () => {},
+  orderInfo: {
+    subTotal: 0,
+    total: 0,
+    delivery: 0,
+    discount: 0,
+    quantity: 0,
+  },
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<CartProduct[]>([]);
+  const orderInfo = getOrderInfo(products);
 
-  const addProductToCart = (product: ProductsItemProps, quantity: number) => {
+  const addProductToCart = ({
+    product,
+    quantity,
+    emptyCart,
+  }: IAddProductToCart) => {
+    emptyCart && setProducts([]);
+
     const isProductInCart = products.some((p) => p.id === product.id);
 
     if (isProductInCart) {
@@ -70,6 +102,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CartContext.Provider
       value={{
+        orderInfo,
         products,
         addProductToCart,
         changeProductQuantity,

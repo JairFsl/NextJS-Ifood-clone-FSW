@@ -33,10 +33,8 @@ export function getOrderInfo(products: CartProduct[]) {
     return acc + price;
   }, 0);
 
-  const delivery = products.reduce(
-    (acc, product) => acc + Number(product.restaurant.deliveryFee),
-    0,
-  );
+  const delivery =
+    products.length > 0 ? Number(products[0].restaurant.deliveryFee) : 0;
 
   const discount = products.reduce((acc, product) => {
     let price = Number(product.price);
@@ -47,10 +45,13 @@ export function getOrderInfo(products: CartProduct[]) {
 
   const total = subTotal - discount + delivery;
 
+  const quantity = products.length;
+
   return {
     subTotal,
     delivery,
     discount,
     total,
+    quantity,
   };
 }

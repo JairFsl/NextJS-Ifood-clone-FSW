@@ -1,3 +1,4 @@
+import CartBanner from "@/app/_components/cart_banner";
 import HorizontalList from "@/app/_components/horizontal_list";
 import { Badge } from "@/app/_components/ui/badge";
 import { Card } from "@/app/_components/ui/card";
@@ -28,7 +29,7 @@ const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
     },
   });
 
-  const productsByCategory = await db.product.findMany({
+  const productsByFirstCategory = await db.product.findMany({
     take: 10,
     where: {
       category: {
@@ -43,8 +44,38 @@ const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
     },
   });
 
+  const productsBySecondCategory = await db.product.findMany({
+    take: 10,
+    where: {
+      category: {
+        name: restaurant.categories[1].name,
+      },
+      AND: {
+        restaurantId: restaurant.id,
+      },
+    },
+    include: {
+      restaurant: true,
+    },
+  });
+
+  const productsByThirdCategory = await db.product.findMany({
+    take: 10,
+    where: {
+      category: {
+        name: restaurant.categories[2].name,
+      },
+      AND: {
+        restaurantId: restaurant.id,
+      },
+    },
+    include: {
+      restaurant: true,
+    },
+  });
+
   return (
-    <div className="relative z-20 mt-[-20px] rounded-t-3xl bg-white">
+    <div className="relative z-20 mb-5 mt-[-20px] rounded-t-3xl bg-white [&::-webkit-scrollbar]:hidden">
       {/* RESTAURANT */}
       <div className="flex flex-row items-center justify-between p-5">
         <div className="flex flex-row items-center gap-2">
@@ -122,18 +153,46 @@ const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
         </div>
       )}
 
-      {/* LIST BY CATEGORY */}
-      {productsByCategory.length > 0 && (
+      {/* LIST BY FIRST CATEGORY */}
+      {productsByFirstCategory.length > 0 && (
         <div className="py-6">
           <h2 className="mx-5 pb-3 text-lg font-semibold">
             {restaurant.categories[0].name}
           </h2>
           <HorizontalList
             product
-            data={JSON.parse(JSON.stringify(productsByCategory))}
+            data={JSON.parse(JSON.stringify(productsByFirstCategory))}
           />
         </div>
       )}
+
+      {/* LIST BY SECOND CATEGORY */}
+      {productsBySecondCategory.length > 0 && (
+        <div className="py-6">
+          <h2 className="mx-5 pb-3 text-lg font-semibold">
+            {restaurant.categories[1].name}
+          </h2>
+          <HorizontalList
+            product
+            data={JSON.parse(JSON.stringify(productsBySecondCategory))}
+          />
+        </div>
+      )}
+
+      {/* LIST BY THIRD CATEGORY */}
+      {productsByThirdCategory.length > 0 && (
+        <div className="py-6">
+          <h2 className="mx-5 pb-3 text-lg font-semibold">
+            {restaurant.categories[2].name}
+          </h2>
+          <HorizontalList
+            product
+            data={JSON.parse(JSON.stringify(productsByThirdCategory))}
+          />
+        </div>
+      )}
+
+      <CartBanner restaurantId={JSON.parse(JSON.stringify(restaurant.id))} />
     </div>
   );
 };

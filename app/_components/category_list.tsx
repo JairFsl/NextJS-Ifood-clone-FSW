@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { db } from "../_lib/prisma";
 import CategoryItem from "./category_item";
 

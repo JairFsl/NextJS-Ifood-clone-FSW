@@ -5,8 +5,11 @@ import BottomButton from "./bottom_button";
 import { formatPrice } from "../_lib/utils";
 import { Card } from "./ui/card";
 import { Dialog, DialogContent } from "./ui/dialog";
-import { CheckCircle2Icon } from "lucide-react";
+import { CheckCircle2Icon, Loader2Icon } from "lucide-react";
 import { Sheet, SheetContent } from "./ui/sheet";
+import { createOrder } from "../_actions/order";
+import { OrderStatus } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 interface CartProps {
   isOpen: boolean;
@@ -17,7 +20,37 @@ const Cart = ({ isOpen, setOpen }: CartProps) => {
   const { products, orderInfo, RemoveAllProductsFromCart } =
     useContext(CartContext);
 
+  const { data } = useSession();
+
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
+
+  const handleFinishOrderClick = async () => {
+    try {
+      setIsSubmitLoading(true);
+      if (!data?.user) return;
+
+      const restaurant = products?.[0].restaurant;
+      await createOrder({
+        subTotalPrice: orderInfo.subTotal,
+        totalDiscount: orderInfo.discount,
+        totalPrice: orderInfo.total,
+        deliveryFee: restaurant.deliveryFee,
+        deliveryTime: restaurant.deliveryTimeMinutes,
+        restaurant: {
+          connect: { id: restaurant.id },
+        },
+        status: OrderStatus.CONFIRMED,
+        user: {
+          connect: { id: data.user.id },
+        },
+      });
+    } catch (error) {
+      console.log(error, "error");
+    } finally {
+      setIsSubmitLoading(false);
+    }
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
@@ -82,13 +115,18 @@ const Cart = ({ isOpen, setOpen }: CartProps) => {
 
             <div className="my-7 flex w-full">
               <BottomButton
-                disabled={products.length === 0}
+                disabled={products.length === 0 || isSubmitLoading}
                 text="Finalizar Pedido"
-                onClick={() => {
+                onClick={async () => {
+                  await handleFinishOrderClick();
                   RemoveAllProductsFromCart();
                   setOpenDialog(true);
                 }}
-              />
+              >
+                {isSubmitLoading && (
+                  <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                )}
+              </BottomButton>
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ interface BottomButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
   disabled?: boolean;
+  children?: React.ReactNode;
 }
 
 const BottomButton = ({
@@ -15,6 +16,7 @@ const BottomButton = ({
   onClick = () => {},
   className,
   disabled,
+  children,
 }: BottomButtonProps) => {
   return (
     <Button
@@ -23,6 +25,7 @@ const BottomButton = ({
       className={cn("w-full bg-primary text-white", className)}
       onClick={onClick}
     >
+      {children}
       <span>{text}</span>
     </Button>
   );

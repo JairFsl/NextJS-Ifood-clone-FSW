@@ -90,21 +90,18 @@ const MenuPage = () => {
             </div>
           </>
         ) : (
-          <Link
-            href="/login"
-            className="my-5 rounded-full px-3 duration-300 ease-in-out hover:scale-105 hover:transform hover:transition-transform"
+          <Button
+            onClick={handleSignInClick}
+            variant={"ghost"}
+            className="rounded-full px-3"
           >
-            <div className="flex flex-row items-center justify-between p-1">
-              <span className="font-semibold">Olá, Faça seu Login!</span>
-              <Button
-                size={"icon"}
-                className="h-9 w-9"
-                onClick={handleSignInClick}
-              >
-                <LogInIcon />
-              </Button>
+            <div className="flex w-full flex-row items-center justify-between px-3 duration-300 ease-in-out hover:scale-105 hover:transform hover:transition-transform">
+              <span className="text-base font-semibold">
+                Olá, Faça seu Login!
+              </span>
+              <LogInIcon />
             </div>
-          </Link>
+          </Button>
         )}
 
         {/* MENU */}
@@ -115,17 +112,23 @@ const MenuPage = () => {
               <Button
                 variant={pathName === "/" ? "default" : "outline"}
                 className={routes.home().className}
+                asChild
               >
-                <HomeIcon />
-                <span>Home</span>
+                <Link href={"/"}>
+                  <HomeIcon />
+                  <span>Home</span>
+                </Link>
               </Button>
 
               <Button
                 variant={pathName.includes("/orders") ? "default" : "outline"}
                 className={routes.orders().className}
+                asChild
               >
-                <ReceiptTextIcon />
-                <span>Meus Pedidos</span>
+                <Link href={"/my-orders"}>
+                  <ReceiptTextIcon />
+                  <span>Meus Pedidos</span>
+                </Link>
               </Button>
 
               <Button
@@ -133,9 +136,12 @@ const MenuPage = () => {
                   pathName.includes("/favorites") ? "default" : "outline"
                 }
                 className={routes.favorites().className}
+                asChild
               >
-                <HeartIcon />
-                <span>Restaurantes Favoritos</span>
+                <Link href={"/restaurants/recommended"}>
+                  <HeartIcon />
+                  <span>Restaurantes Favoritos</span>
+                </Link>
               </Button>
             </div>
           </>

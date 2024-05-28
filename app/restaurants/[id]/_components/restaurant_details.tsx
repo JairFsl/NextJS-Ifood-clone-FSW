@@ -1,4 +1,4 @@
-import CartBanner from "@/app/_components/cart_banner";
+import CartBanner from "@/app/restaurants/[id]/_components/cart_banner";
 import HorizontalList from "@/app/_components/horizontal_list";
 import { Badge } from "@/app/_components/ui/badge";
 import { Card } from "@/app/_components/ui/card";

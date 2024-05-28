@@ -15,7 +15,6 @@ import {
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { Dialog, DialogContent } from "@/app/_components/ui/dialog";
-import { Sheet, SheetContent } from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_context/cart";
 import { formatPrice } from "@/app/_lib/utils";
 import { ProductsItemProps } from "@/app/_types/Product/ProductsItemProps.d";
@@ -182,11 +181,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         </div>
       </div>
 
-      <Sheet open={openCart} onOpenChange={setOpenCart}>
-        <SheetContent>
-          <Cart dialog={setOpenDialog} cart={setOpenCart} />
-        </SheetContent>
-      </Sheet>
+      <Cart isOpen={openCart} setOpen={setOpenCart} />
 
       <AlertDialog open={openAlertDialog} onOpenChange={setOpenAlertDialog}>
         <AlertDialogContent className="flex h-80 w-[90%] flex-col items-center justify-center rounded-2xl">

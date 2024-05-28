@@ -11,6 +11,8 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import BottomButton from "./bottom_button";
 import MenuPage from "./menu";
 
+import { signIn, signOut, useSession } from "next-auth/react";
+
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [openCart, setOpenCart] = useState(false);
@@ -44,11 +46,7 @@ const Header = () => {
         </SheetContent>
       </Sheet>
 
-      <Sheet open={openCart} onOpenChange={setOpenCart}>
-        <SheetContent>
-          <Cart dialog={setOpenDialog} cart={setOpenCart} />
-        </SheetContent>
-      </Sheet>
+      <Cart isOpen={openCart} setOpen={setOpenCart} />
 
       <Dialog open={openDialog}>
         <DialogContent className="flex h-80 w-3/4 flex-col items-center justify-center rounded-2xl">

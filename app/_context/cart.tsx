@@ -75,8 +75,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setProducts((prev) => [...prev, { ...product, quantity }]);
     }
-
-    console.log(products);
   };
 
   const changeProductQuantity = (productId: string, quantity: number) => {

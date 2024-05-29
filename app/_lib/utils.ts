@@ -26,7 +26,6 @@ export function formatPrice(price: number, discountPercentage?: number) {
 }
 
 export function getOrderInfo(products: CartProduct[]) {
-  console.log(products, "teste");
   const subTotal = products.reduce((acc, product) => {
     let price = Number(product.price);
     product.quantity > 1 && (price *= product.quantity);

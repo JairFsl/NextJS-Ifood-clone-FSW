@@ -93,9 +93,9 @@ const MenuPage = () => {
           <Button
             onClick={handleSignInClick}
             variant={"ghost"}
-            className="rounded-full px-3"
+            className="rounded-full px-3 duration-300 ease-in-out hover:scale-105 hover:transform hover:transition-transform"
           >
-            <div className="flex w-full flex-row items-center justify-between px-3 duration-300 ease-in-out hover:scale-105 hover:transform hover:transition-transform">
+            <div className="flex w-full flex-row items-center justify-between px-3">
               <span className="text-base font-semibold">
                 Olá, Faça seu Login!
               </span>
@@ -125,7 +125,7 @@ const MenuPage = () => {
                 className={routes.orders().className}
                 asChild
               >
-                <Link href={"/my-orders"}>
+                <Link href={"/orders"}>
                   <ReceiptTextIcon />
                   <span>Meus Pedidos</span>
                 </Link>

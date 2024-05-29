@@ -43,7 +43,6 @@ model Product {
   restaurant         Restaurant     @relation(fields: [restaurantId], references: [id])
   categoryId         String
   category           Category       @relation(fields: [categoryId], references: [id])
-  orders             Order[]
   createdAt          DateTime       @default(now())
   OrderProducts      OrderProduct[]
 }
@@ -62,22 +61,16 @@ model Order {
   userId   String
   user     User           @relation(fields: [userId], references: [id])
   products OrderProduct[]
-
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
-
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   deliveryFee  Decimal @db.Decimal(10, 2)
   deliveryTime Int
 
   subTotalPrice Decimal @db.Decimal(10, 2)
   totalPrice    Decimal @db.Decimal(10, 2)
   totalDiscount Decimal @db.Decimal(10, 2)
-
-  status OrderStatus
-
   createdAt DateTime @default(now())
-  Product   Product? @relation(fields: [productId], references: [id])
-  productId String?
+  status OrderStatus
 }
 
 enum OrderStatus {

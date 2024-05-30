@@ -19,12 +19,13 @@ import {
 import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { CartContext } from "@/app/_context/cart";
-import { cn } from "@/app/_lib/utils";
+import { cn, formatPrice } from "@/app/_lib/utils";
 import { IOrderItem } from "@/app/_types/Order/OrderItem";
 import { CheckCircle2Icon, ChevronRightIcon } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import BottomButton from "@/app/_components/bottom_button";
 import Cart from "@/app/_components/cart";
+import Link from "next/link";
 
 const OrderItem = ({ order }: IOrderItem) => {
   const { addProductToCart, products } = useContext(CartContext);
@@ -118,7 +119,10 @@ const OrderItem = ({ order }: IOrderItem) => {
           </div>
 
           {/* RESTAURANT */}
-          <div className="flex h-10 flex-row items-center justify-between">
+          <Link
+            href={`/restaurants/${order.restaurantId}`}
+            className="flex h-10 flex-row items-center justify-between"
+          >
             <div className="flex flex-row items-center justify-center gap-2">
               <Avatar className="h-6 w-6">
                 <AvatarImage src={order.restaurant.imageUrl} />
@@ -127,7 +131,7 @@ const OrderItem = ({ order }: IOrderItem) => {
               <span className="font-semibold">{order.restaurant.name}</span>
             </div>
             <ChevronRightIcon />
-          </div>
+          </Link>
 
           <div className="my-3 border border-solid"></div>
 
@@ -152,7 +156,9 @@ const OrderItem = ({ order }: IOrderItem) => {
 
           {/* PRICE */}
           <div className="flex flex-row items-center justify-between">
-            <span className="font-semibold">R$ {Number(order.totalPrice)}</span>
+            <span className="font-semibold">
+              {formatPrice(Number(order.totalPrice))}
+            </span>
             <Button variant={"ghost"} onClick={handleAddToCart}>
               <span className="font-semibold text-primary">
                 Adicionar à Sacola

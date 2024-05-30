@@ -22,9 +22,10 @@ const renderProduct = (product: ProductsItemProps) => {
 
 const renderRestaurant = (restaurant: RestaurantItemProps) => {
   return (
-    <Suspense fallback={<span>teste...</span>} key={restaurant.id}>
-      <RestaurantItem restaurant={JSON.parse(JSON.stringify(restaurant))} />
-    </Suspense>
+    <RestaurantItem
+      restaurant={JSON.parse(JSON.stringify(restaurant))}
+      key={restaurant.id}
+    />
   );
 };
 

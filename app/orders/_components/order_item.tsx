@@ -124,9 +124,11 @@ const OrderItem = ({ order }: IOrderItem) => {
             className="flex h-10 flex-row items-center justify-between"
           >
             <div className="flex flex-row items-center justify-center gap-2">
-              <Avatar className="h-6 w-6">
+              <Avatar className="h-7 w-7">
                 <AvatarImage src={order.restaurant.imageUrl} />
-                <AvatarFallback>RE</AvatarFallback>
+                <AvatarFallback>
+                  <div className="h-6 w-6 animate-pulse rounded-full bg-gray-500"></div>
+                </AvatarFallback>
               </Avatar>
               <span className="font-semibold">{order.restaurant.name}</span>
             </div>

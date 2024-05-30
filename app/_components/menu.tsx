@@ -17,6 +17,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Suspense } from "react";
 
 const MenuPage = () => {
   const pathName = usePathname();
@@ -68,41 +69,59 @@ const MenuPage = () => {
       <h1 className="text-xl font-semibold">Menu</h1>
       <div className="mt-4 flex h-full flex-col">
         {/* PROFILE / LOGIN */}
-        {data?.user ? (
-          <>
-            <div className="my-5 flex justify-between">
-              <div className="flex items-center gap-3 p-1">
-                <Avatar>
-                  <AvatarImage src={data?.user?.image as string | undefined} />
-                  <AvatarFallback>
-                    {data?.user?.name?.split(" ")[0][0]}
-                    {data?.user?.name?.split(" ")[1][0]}
-                  </AvatarFallback>
-                </Avatar>
-
-                <div>
-                  <h3 className="font-semibold">{data?.user?.name}</h3>
-                  <span className="block text-xs text-muted-foreground">
-                    {data?.user?.email}
-                  </span>
+        <Suspense
+          fallback={
+            <div className="flex items-center space-x-2">
+              <div className="h-12 w-12 animate-pulse rounded-full bg-gray-500"></div>
+              <div className="space-y-2">
+                <div className="h-4 w-[200px] animate-pulse rounded-md bg-gray-500">
+                  {" "}
+                </div>
+                <div className="h-4 w-[170px] animate-pulse rounded-md bg-gray-500">
+                  {" "}
                 </div>
               </div>
             </div>
-          </>
-        ) : (
-          <Button
-            onClick={handleSignInClick}
-            variant={"ghost"}
-            className="rounded-full px-3 duration-300 ease-in-out hover:scale-105 hover:transform hover:transition-transform"
-          >
-            <div className="flex w-full flex-row items-center justify-between px-3">
-              <span className="text-base font-semibold">
-                Olá, Faça seu Login!
-              </span>
-              <LogInIcon />
-            </div>
-          </Button>
-        )}
+          }
+        >
+          {data?.user ? (
+            <>
+              <div className="my-5 flex justify-between">
+                <div className="flex items-center gap-3 p-1">
+                  <Avatar>
+                    <AvatarImage
+                      src={data?.user?.image as string | undefined}
+                    />
+                    <AvatarFallback>
+                      {data?.user?.name?.split(" ")[0][0]}
+                      {data?.user?.name?.split(" ")[1][0]}
+                    </AvatarFallback>
+                  </Avatar>
+
+                  <div>
+                    <h3 className="font-semibold">{data?.user?.name}</h3>
+                    <span className="block text-xs text-muted-foreground">
+                      {data?.user?.email}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <Button
+              onClick={handleSignInClick}
+              variant={"ghost"}
+              className="rounded-full px-3 duration-300 ease-in-out hover:scale-105 hover:transform hover:transition-transform"
+            >
+              <div className="flex w-full flex-row items-center justify-between px-3">
+                <span className="text-base font-semibold">
+                  Olá, Faça seu Login!
+                </span>
+                <LogInIcon />
+              </div>
+            </Button>
+          )}
+        </Suspense>
 
         {/* MENU */}
         {data?.user && (

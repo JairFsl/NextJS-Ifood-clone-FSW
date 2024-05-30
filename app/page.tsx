@@ -24,10 +24,15 @@ export default async function Home() {
       <div className="px-5 pt-6">
         <Suspense
           fallback={
-            <div className="flex flex-row justify-center gap-2">
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary"></div>
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.3s]"></div>
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.5s]"></div>
+            <div className="grid grid-cols-2 gap-3">
+              {Array.from({ length: 6 }, (_, index) => (
+                <div
+                  className="w-full animate-pulse space-y-2 rounded-lg"
+                  key={index}
+                >
+                  <div className="h-10 w-full rounded-md bg-neutral-400/50"></div>
+                </div>
+              ))}
             </div>
           }
         >
@@ -59,10 +64,27 @@ export default async function Home() {
         {/* LISTA DE PRODUTOS EM OFERTA */}
         <Suspense
           fallback={
-            <div className="flex flex-row justify-center gap-2">
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary"></div>
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.3s]"></div>
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.5s]"></div>
+            <div className="flex gap-4 overflow-x-scroll px-5 [&::-webkit-scrollbar]:hidden">
+              {Array.from({ length: 3 }, (_, index) => (
+                <div
+                  key={index}
+                  className={
+                    "flex w-[180px] min-w-[160px] flex-col gap-4 rounded-xl bg-neutral-200 p-2"
+                  }
+                >
+                  <div className="w-full animate-pulse space-y-2 rounded-lg p-1">
+                    <div className="h-28 w-full rounded-md bg-neutral-400/50"></div>
+                    <div className="flex flex-col gap-2">
+                      <div className="h-4 w-2/3 rounded-md bg-neutral-400/50"></div>
+                      <div className="flex flex-row gap-2">
+                        <div className="h-4 w-2/5 rounded-md bg-neutral-400/50"></div>
+                        <div className="h-4 w-2/5 rounded-md bg-neutral-400/50"></div>
+                      </div>
+                      <div className="h-4 w-2/4 rounded-md bg-neutral-400/50"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           }
         >
@@ -94,10 +116,26 @@ export default async function Home() {
         {/* LISTA DE RESTAURANTES RECOMENDADOS */}
         <Suspense
           fallback={
-            <div className="flex flex-row justify-center gap-2">
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary"></div>
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.3s]"></div>
-              <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-.5s]"></div>
+            <div className="flex gap-4 overflow-x-scroll px-5 [&::-webkit-scrollbar]:hidden">
+              {Array.from({ length: 3 }, (_, index) => (
+                <div
+                  key={index}
+                  className={
+                    "flex min-w-[266px] max-w-[266px] flex-col gap-4 rounded-xl bg-neutral-200 p-2"
+                  }
+                >
+                  <div className="w-full animate-pulse space-y-2 rounded-lg">
+                    <div className="h-28 w-full rounded-md bg-neutral-400/50"></div>
+                    <div className="flex flex-col gap-2">
+                      <div className="h-4 w-2/3 rounded-md bg-neutral-400/50"></div>
+                      <div className="flex flex-row gap-4">
+                        <div className="h-4 w-1/2 rounded-md bg-neutral-400/50"></div>
+                        <div className="h-4 w-2/5 rounded-md bg-neutral-400/50"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           }
         >

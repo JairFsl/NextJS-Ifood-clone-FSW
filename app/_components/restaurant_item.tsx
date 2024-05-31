@@ -1,20 +1,29 @@
-import { AlarmClockIcon, BikeIcon, HeartIcon, StarIcon } from "lucide-react";
+import { AlarmClockIcon, BikeIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
-import { Button } from "./ui/button";
 import { RestaurantItemProps } from "../_types/Restaurant/RestaurantItemProps.d";
 import Link from "next/link";
 import { cn } from "../_lib/utils";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../_lib/auth";
+import { redirect } from "next/navigation";
+import LikeButton from "./like_button";
 
 interface ItemProps {
   restaurant: RestaurantItemProps;
-
   className?: string;
 }
 
-const RestaurantItem: React.FC<ItemProps> = ({
+// eslint-disable-next-line @next/next/no-async-client-component
+const RestaurantItem: React.FC<ItemProps> = async ({
   restaurant,
   className,
 }: ItemProps) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    return redirect("/api/auth/signin");
+  }
+
   return (
     <Link
       href={`/restaurants/${restaurant.id}`}
@@ -39,12 +48,8 @@ const RestaurantItem: React.FC<ItemProps> = ({
             5.0
           </div>
 
-          <Button
-            size={"icon"}
-            className="absolute right-2 top-2 flex h-7 w-7 items-center rounded-full bg-muted-foreground text-black"
-          >
-            <HeartIcon size={18} fill="#fff" strokeWidth={0} />
-          </Button>
+          {/* LIKE */}
+          <LikeButton userId={session.user.id} restaurantId={restaurant.id} />
         </div>
 
         {/* INFO */}

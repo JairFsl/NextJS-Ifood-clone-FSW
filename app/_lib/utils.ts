@@ -1,12 +1,23 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import {
-  CartProduct,
-  ProductsItemProps,
-} from "../_types/Product/ProductsItemProps.d";
+import { CartProduct } from "../_types/Product/ProductsItemProps.d";
+import { NextResponse } from "next/server";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function middleware(request: Request) {
+  // Store current request url in a custom header, which you can read later
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-url", request.url);
+
+  return NextResponse.next({
+    request: {
+      // Apply new request headers
+      headers: requestHeaders,
+    },
+  });
 }
 
 export function formatPrice(price: number, discountPercentage?: number) {

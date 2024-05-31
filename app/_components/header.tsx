@@ -9,9 +9,8 @@ import { useState } from "react";
 import Cart from "./cart";
 import { Dialog, DialogContent } from "./ui/dialog";
 import BottomButton from "./bottom_button";
-import MenuPage from "./menu";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import MenuPage from "./menu/page";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
